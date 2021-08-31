@@ -1,5 +1,11 @@
 import { errorHandler } from "../utils/errorHandler";
 
+/**
+ * Generates an HTML view containing the list of files present on the CDN.
+ *
+ * @param {string[]} fileList A list of the files available on the CDN.
+ * @returns {string} An HTML DOM string.
+ */
 export const generateHtml = (fileList: string[]): string => {
   try {
     const baseHref = process.env.BASE_PATH || "http://localhost:8080";
