@@ -1,9 +1,19 @@
-import { Request, Response } from "express";
 import { readdir, stat } from "fs/promises";
 import path from "path";
+
+import { Request, Response } from "express";
+
 import { errorHandler } from "../utils/errorHandler";
+
 import { generateHtml } from "./generateFileHtml";
 
+/**
+ * Generates a list of file names and paths for the given directory.
+ *
+ * @param {string} directory The directory to get files from.
+ * @param {string[]} fileList The current list of file paths.
+ * @returns {Promise<string[]>} The list of file paths.
+ */
 export const getFiles = async (
   directory: string,
   fileList: string[]
@@ -13,6 +23,8 @@ export const getFiles = async (
     for (const file of files) {
       const fileStat = await stat(path.join(directory, file));
       if (fileStat.isDirectory()) {
+        // Disable the following line to allow for recursive calls.
+        // eslint-disable-next-line no-param-reassign
         fileList = await getFiles(path.join(directory, file), fileList);
       } else {
         fileList.push(path.join(directory, file));
@@ -25,6 +37,12 @@ export const getFiles = async (
   }
 };
 
+/**
+ * Parses the file paths, replacing "assets" with "content".
+ *
+ * @param {string[]} files The list of file paths to parse.
+ * @returns {string[]} The parsed paths.
+ */
 export const parseFileList = (files: string[]): string[] => {
   try {
     files.forEach((file, index) => {
@@ -41,6 +59,13 @@ export const parseFileList = (files: string[]): string[] => {
   }
 };
 
+/**
+ * Route handler for the `/files` endpoint. Returns a list of files available
+ * on the CDN.
+ *
+ * @param {Request} _ The request object.
+ * @param {Response} res The response object.
+ */
 export const getFilesRoute = async (
   _: Request,
   res: Response

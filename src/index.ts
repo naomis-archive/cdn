@@ -1,15 +1,17 @@
-import express from "express";
-import rateLimit from "express-rate-limit";
 import { readFile } from "fs/promises";
 import http from "http";
 import https from "https";
 import path from "path";
-import { getFilesRoute } from "./modules/getFiles";
-import cors from "cors";
-import * as Sentry from "@sentry/node";
-import { RewriteFrames } from "@sentry/integrations";
 
-export const CDN = express();
+import { RewriteFrames } from "@sentry/integrations";
+import * as Sentry from "@sentry/node";
+import cors from "cors";
+import express from "express";
+import rateLimit from "express-rate-limit";
+
+import { getFilesRoute } from "./modules/getFiles";
+
+const CDN = express();
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000,
