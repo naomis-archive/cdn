@@ -4,8 +4,8 @@
   "description": "A CDN for my personal use.",
   "main": "./prod/index.js",
   "engines": {
-    "node": "^16.8.0",
-    "npm": "^7.22.0"
+    "node": "^16.9.1",
+    "npm": "^7.24.0"
   },
   "scripts": {
     "prebuild": "rm -rf ./prod",
